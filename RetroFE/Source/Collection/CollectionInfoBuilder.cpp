@@ -450,6 +450,29 @@ void CollectionInfoBuilder::addPlaylists(CollectionInfo *info)
                 {
                     std::string collectionName = info->name;
                     std::string itemName       = it->first;
+
+                    // if playlist file exists, look within to find playlists to display in a menu of type="playlist#"
+                    if (basename == "playlists") {
+                        Logger::write(Logger::ZONE_INFO, "PLAYLIST MENU", "Adding playlists to menu");
+
+                        if (itemName.at(0) == '-') {
+                            // playlist name; just reusing collectionName var
+                            collectionName = itemName.erase(0, 1);
+                            Logger::write(Logger::ZONE_INFO, "PLAYLIST MENU", "Checking " + collectionName);
+
+                            // check if playlist name in file exists
+                            if (info->playlists[collectionName]) {
+                                Item * playlistItem = new Item();
+                                playlistItem->name = collectionName;
+                                playlistItem->collectionInfo = info;
+                                info->playlistItems.push_back(playlistItem);
+                                Logger::write(Logger::ZONE_INFO, "PLAYLIST MENU", "Added " + collectionName);
+                            }
+                        }
+                        continue;
+                    }
+
+                    // look through each playlist and assign items to them and mark as favorite if in that playlist
                     if (itemName.at(0) == '_') // name consists of _<collectionName>:<itemName>
                     {
                          itemName.erase(0, 1); // Remove _
