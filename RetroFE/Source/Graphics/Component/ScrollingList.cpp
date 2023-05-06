@@ -764,6 +764,9 @@ bool ScrollingList::allocateTexture( unsigned int index, Item *item )
         names.push_back( item->rating );
     if ( typeLC == "score" )
         names.push_back( item->score );
+    if (typeLC.rfind("playlist", 0) == 0)
+        names.push_back(item->name);
+
     names.push_back("default");
 
     for ( unsigned int n = 0; n < names.size() && !t; ++n )
