@@ -464,8 +464,13 @@ void CollectionInfoBuilder::addPlaylists(CollectionInfo *info)
                             if (info->playlists[collectionName]) {
                                 Item * playlistItem = new Item();
                                 playlistItem->name = collectionName;
+                                playlistItem->title = collectionName;
+                                playlistItem->fullTitle = collectionName;
+                                playlistItem->leaf = false;
                                 playlistItem->collectionInfo = info;
-                                info->playlistItems.push_back(playlistItem);
+                                playlistItem->isPlaylist = true;
+                                info->playlists[basename]->push_back(playlistItem);
+                                info->items.push_back(playlistItem);
                                 Logger::write(Logger::ZONE_INFO, "PLAYLIST MENU", "Added " + collectionName);
                             }
                         }

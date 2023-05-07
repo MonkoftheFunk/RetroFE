@@ -42,7 +42,6 @@ public:
 
     typedef std::map<std::string, std::vector <Item *> *> Playlists_T;
     Playlists_T playlists;
-    std::vector<Item *> playlistItems;
 
     bool menusort;
     bool subsSplit;
