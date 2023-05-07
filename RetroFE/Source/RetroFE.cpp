@@ -378,6 +378,7 @@ bool RetroFE::run( )
     state               = RETROFE_ENTER;
     bool splashMode     = true;
     bool exitSplashMode = false;
+    Item* selected      = nullptr;
 
     Launcher l( config_ );
     Menu     m( config_, input_ );
@@ -1114,6 +1115,16 @@ bool RetroFE::run( )
 
         // Launching game; start onGameEnter animation
         case RETROFE_LAUNCH_ENTER:
+            selected = currentPage_->getSelectedItem();
+            // if type playlist item then navigate to that playlist
+            if (selected->isPlaylist) {
+                currentPage_->selectPlaylist(selected->name);
+                currentPage_->onNewItemSelected();
+                currentPage_->reallocateMenuSpritePoints();
+                state = RETROFE_BACK_MENU_LOAD_ART;
+                break;
+            }
+
             currentPage_->enterGame( );  // Start onGameEnter animation
             currentPage_->playSelect( ); // Play launch sound
             state = RETROFE_LAUNCH_REQUEST;
@@ -1711,6 +1722,14 @@ RetroFE::RETROFE_STATE RetroFE::processUserInput( Page *page )
                 }
                 else
                 {
+                    if (nextPageItem_->isPlaylist) {
+                        currentPage_->selectPlaylist(nextPageItem_->name);
+                        currentPage_->onNewItemSelected();
+                        currentPage_->reallocateMenuSpritePoints();
+                        state = RETROFE_BACK_MENU_LOAD_ART;
+                        return state;
+                    }
+
                     CollectionInfoBuilder cib(config_, *metadb_);
                     std::string attractModeSkipPlaylist  = "";
                     std::string lastPlayedSkipCollection = "";

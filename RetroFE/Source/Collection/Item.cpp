@@ -27,6 +27,7 @@ Item::Item()
 {
     file = "";
     isFavorite = false;
+    isPlaylist = false;
 }
 
 Item::~Item()

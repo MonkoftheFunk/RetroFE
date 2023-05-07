@@ -44,6 +44,7 @@ public:
     std::string rating;
     std::string score;
     bool        isFavorite;
+    bool        isPlaylist;
     CollectionInfo *collectionInfo;
     bool leaf;
 
