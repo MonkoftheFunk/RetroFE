@@ -1119,6 +1119,9 @@ bool RetroFE::run( )
             // if type playlist item then navigate to that playlist
             if (selected->isPlaylist) {
                 currentPage_->selectPlaylist(selected->name);
+                currentPage_->onNewItemSelected();
+                currentPage_->reallocateMenuSpritePoints();
+                state = RETROFE_BACK_MENU_LOAD_ART;
                 break;
             }
 
@@ -1719,11 +1722,11 @@ RetroFE::RETROFE_STATE RetroFE::processUserInput( Page *page )
                 }
                 else
                 {
-                    Logger::write(Logger::ZONE_INFO, "RetroFE", nextPageItem_->isPlaylist ? "playlist" : "not");
-                    Logger::write(Logger::ZONE_INFO, "RetroFE", nextPageItem_->name);
-
                     if (nextPageItem_->isPlaylist) {
                         currentPage_->selectPlaylist(nextPageItem_->name);
+                        currentPage_->onNewItemSelected();
+                        currentPage_->reallocateMenuSpritePoints();
+                        state = RETROFE_BACK_MENU_LOAD_ART;
                         return state;
                     }
 
