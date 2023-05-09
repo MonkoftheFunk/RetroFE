@@ -529,6 +529,8 @@ bool RetroFE::run( )
                     input_.update(e);
                 input_.resetStates( );
             }
+            // save last playlist selected item
+            lastPlaylistOffsets_[currentPage_->getPlaylistName()] = currentPage_->getScrollOffsetIndex();
             currentPage_->playlistExit( );
             currentPage_->setScrolling(Page::ScrollDirectionIdle);
             state = RETROFE_PLAYLIST_EXIT;
@@ -538,7 +540,15 @@ bool RetroFE::run( )
         case RETROFE_PLAYLIST_EXIT:
             if (currentPage_->isIdle( ))
             {
-                currentPage_->onNewItemSelected( );
+                // if resume
+                bool rememberMenu = false;
+                config_.getProperty("rememberMenu", rememberMenu);
+                if (rememberMenu && lastPlaylistOffsets_[currentPage_->getPlaylistName()])
+                {
+                    currentPage_->setScrollOffsetIndex(lastPlaylistOffsets_[currentPage_->getPlaylistName()]);
+                } else {
+                    currentPage_->onNewItemSelected();
+                }
                 state = RETROFE_PLAYLIST_LOAD_ART;
             }
             break;
