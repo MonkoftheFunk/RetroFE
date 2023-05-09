@@ -1348,7 +1348,7 @@ void Page::nextCyclePlaylist(std::vector<std::string> list)
 
     // Find the current playlist in the list
     std::vector<std::string>::iterator it = list.begin();
-    while (*it != getPlaylistName() && it != list.end())
+    while (it != list.end() && *it != getPlaylistName())
         ++it;
 
     // If current playlist not found, switch to the first found cycle playlist in the playlist list
@@ -1386,7 +1386,7 @@ void Page::prevCyclePlaylist(std::vector<std::string> list)
 
     // Find the current playlist in the list
     std::vector<std::string>::iterator it = list.begin();
-    while (*it != getPlaylistName() && it != list.end())
+    while (it != list.end() && *it != getPlaylistName())
         ++it;
 
     // If current playlist not found, switch to the first found cycle playlist in the playlist list
