@@ -161,6 +161,7 @@ void Page::setSelectedItem()
 }
 
 ScrollingList* Page::getAnActiveMenu() {
+    // todo find the real menu that is scrolling, or store offsetIndex in the selectedItem_
     if (activeMenu_.size()) {
         for (unsigned int i = 0; i < activeMenu_.size(); i++)
         {
@@ -213,10 +214,8 @@ void Page::onResumeItemSelected()
     std::string name = getPlaylistName();
     if (name != "" && lastPlaylistOffsets_[name]) {
         setScrollOffsetIndex(lastPlaylistOffsets_[name]);
-        onNewItemSelected();
-    } else {
-        onNewItemSelected();
     }
+    onNewItemSelected();
 }
 
 void Page::remeberSelectedItem()
