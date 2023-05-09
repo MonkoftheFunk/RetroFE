@@ -206,6 +206,20 @@ void Page::onNewItemSelected()
 
 }
 
+void Page::onResumeItemSelected()
+{
+    std::string name = getPlaylistName();
+    if (name != "" && lastPlaylistOffsets_[name]) {
+        setScrollOffsetIndex(lastPlaylistOffsets_[name]);
+    } else {
+        onNewItemSelected();
+    }
+}
+
+void Page::remeberSelectedItem()
+{
+    lastPlaylistOffsets_[getPlaylistName()] = getScrollOffsetIndex();
+}
 
 void Page::onNewScrollItemSelected()
 {
@@ -1222,6 +1236,8 @@ void Page::nextPlaylist()
 {
     MenuInfo_S &info = collections_.back();
     unsigned int numlists = info.collection->playlists.size();
+    // save last playlist selected item
+    remeberSelectedItem();
 
     for(unsigned int i = 0; i <= numlists; ++i)
     {
@@ -1247,6 +1263,8 @@ void Page::prevPlaylist()
 {
     MenuInfo_S &info = collections_.back();
     unsigned int numlists = info.collection->playlists.size();
+    // save last playlist selected item
+    remeberSelectedItem();
 
     for(unsigned int i = 0; i <= numlists; ++i)
     {
@@ -1274,6 +1292,8 @@ void Page::selectPlaylist(std::string playlist)
     MenuInfo_S &info = collections_.back();
     info.collection->Save();
     unsigned int numlists = info.collection->playlists.size();
+    // save last playlist selected item
+    remeberSelectedItem();
 
     // Store current playlist
     CollectionInfo::Playlists_T::iterator playlist_store = playlist_;

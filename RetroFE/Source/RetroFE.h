@@ -140,6 +140,5 @@ private:
 	std::string        firstPlaylist_;
 
     std::map<std::string, unsigned int> lastMenuOffsets_;
-    std::map<std::string, unsigned int> lastPlaylistOffsets_;
     std::map<std::string, std::string>  lastMenuPlaylists_;
 };
