@@ -208,9 +208,12 @@ void Page::onNewItemSelected()
 
 void Page::onResumeItemSelected()
 {
+    if (!getAnActiveMenu()) return;
+
     std::string name = getPlaylistName();
     if (name != "" && lastPlaylistOffsets_[name]) {
         setScrollOffsetIndex(lastPlaylistOffsets_[name]);
+        onNewItemSelected();
     } else {
         onNewItemSelected();
     }
